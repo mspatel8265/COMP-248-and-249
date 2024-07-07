@@ -70,6 +70,8 @@ public class InvoiceGeneratorQuestionTwo {
         print("End Year Of invoice period (between 1920 and 2024) ? ");
         endYearOfInvoicePeriod = sc.nextInt();
 
+        sc.close();
+
         System.out.printf("%s%n", "-".repeat(100));
         System.out.printf("%s%s%n", "\t".repeat(7), "Montréal Property School Tax Invoice");
         System.out.printf("%s%n", "-".repeat(100));
