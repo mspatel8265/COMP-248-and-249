@@ -18,7 +18,7 @@ public class CalculationsQuestionOne {
         Scanner sc = new Scanner(System.in);
 
         // welcome message
-        System.out.println("Welcome to the Java programs that does Simple Calculations.");
+        System.out.printf("%s%n%s%n", "Welcome to the Java programs that does Simple Calculations:", "-".repeat(70));
 
         // prompt for two integer values
         System.out.println("Enter two integers separated by a space: ");
