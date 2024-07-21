@@ -9,7 +9,10 @@ import java.util.*;
 /**
  * This program facilitates the registration of a new member in the MYSC club.
  * The new member will be added either to the boys club or to the girls club. A 
- * family member must be part of the club for a child to be able to become a member. 
+ * family member must be part of the club for a child to be able to become a member.
+ * 
+ * If a new member is registered into the system, it allows the new member to 
+ * register for Summer Tournaments by providing 3 options to select from.
  */
 
 public class MYSCNewMemberRegistration {
@@ -62,7 +65,7 @@ public class MYSCNewMemberRegistration {
 	 * @return
 	 */
 	public static boolean isDateEnteredValid(int day, int month, int year) {
-		// validate if it forms a correct date
+		// TODO: validate if it forms a correct date
 		
 		return !!(day > 0 && month > 0 && year > 0);
 	}
@@ -381,17 +384,15 @@ public class MYSCNewMemberRegistration {
 
 			System.out.print("Do you wish to continue (yes/no) ? ");
 			toContinueAnswer = sc.next();
-			System.out.println();
 			
 			if (toContinueAnswer.equalsIgnoreCase("yes")) {
-				System.out.printf("Periods Available to register your child: %n");
+				System.out.printf("\nPeriods Available to register your child: %n");
 
 				for (int k = 0; k < listOfPeriods.length; k++) {
 					boolean isFound = Arrays.asList(optionsSelected).contains(listOfPeriods[k]);
 					
 					if (!isFound) {
-						System.out.printf("\t\t\t%d - " + listOfPeriods[k], k+1);
-						System.out.println();
+						System.out.printf("\t\t\t%d - " + listOfPeriods[k] + "%n", k+1);
 					}
 				}
 				
@@ -399,15 +400,19 @@ public class MYSCNewMemberRegistration {
 				optionSelected = sc.nextInt();
 				System.out.println();
 				
+				boolean isOptionAlreadySelected = Arrays.asList(optionsSelected).contains(listOfPeriods[optionSelected-1]);
+				
 				if (!(optionSelected > 0 && optionSelected <= listOfPeriods.length)) {
-					System.out.printf("Invalid option selected: %d", optionSelected);
+					System.out.printf("Invalid option selected: %d%n", optionSelected);
+				} else if (isOptionAlreadySelected) {
+					System.out.println("The same period cannot be selected twice.\n");
 				} else {
 					amountToPay += REGISTRATION_COST;
 					
 					for (int m = 0; m < optionsSelected.length; m++) {
 						if (optionsSelected[m] == "") {
 							optionsSelected[m] = listOfPeriods[optionSelected-1];
-							m = optionsSelected.length - 1;
+							break;
 						}
 					}
 				}
@@ -418,7 +423,7 @@ public class MYSCNewMemberRegistration {
 		sc.close();
 		
 		if (optionsSelected[0] != "") {
-			System.out.printf("%s %s is successfully registered in the following 2024 Summer Tournaments: %n", firstName, lastName);
+			System.out.printf("%s %s is successfully registered in the following 2024 Summer Tournaments: %n", newMemFirstName, newMemLastName);
 			
 			for (int i = 0; i < optionsSelected.length; i++) {
 				if (optionsSelected[i] != "") {
