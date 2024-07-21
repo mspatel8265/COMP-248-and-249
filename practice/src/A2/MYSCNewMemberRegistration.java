@@ -13,26 +13,69 @@ import java.util.*;
  */
 
 public class MYSCNewMemberRegistration {
+	/**
+	 * checks if entered string has at least 2 chars
+	 * @param inputValue
+	 * @return
+	 */
 	public static boolean isInputStringValid(String inputValue) {
 		return inputValue.length() >= 2;
 	}
 	
+	/**
+	 * checks if the postalCode has 6 chars without spaces
+	 * 
+	 * @param postalCode
+	 * @return
+	 */
 	public static boolean isPostalCodeValid(String postalCode) {
-		return postalCode.length() == 6;
+		return (postalCode.replaceAll(" ", "")).length() == 6;
 	}
 	
+	/**
+	 * checks if phoneNum has 10 chars after
+	 * replacing all the occurrences of hyphen ("-") and spaces (" ")
+	 * 
+	 * @param phoneNum
+	 * @return
+	 */
 	public static boolean isPhoneNumberValid(String phoneNum) {
-		boolean isValid = false;
-		
-		isValid = true;
-		// must be 10 digit of the format: xxx-xxx-xxxx
-		return isValid;
+		return ((phoneNum.replaceAll("-", "")).replaceAll(" ", "")).length() == 10;
 	}
 	
+	/**
+	 * checks for valid age, acceptable age is between 2014 and 2020 (limits inclusive)
+	 * 
+	 * @param age
+	 * @return
+	 */
 	public static boolean isAgeValid(int age) {
 		return (age >= 2014 && age <= 2020);
 	}
+
+	/**
+	 * checks if the day, month, year make a valid date
+	 * 
+	 * @param day
+	 * @param month
+	 * @param year
+	 * @return
+	 */
+	public static boolean isDateEnteredValid(int day, int month, int year) {
+		// validate if it forms a correct date
+		
+		return !!(day > 0 && month > 0 && year > 0);
+	}
 	
+	/**
+	 * helper function to print the message
+	 * with parameters to help determine if 
+	 * lines above and below the message
+	 * 
+	 * @param message
+	 * @param printBottomLine
+	 * @param printTopLine
+	 */
 	public static void printMessage(String message, boolean printBottomLine, boolean printTopLine) {
 		int messageLength = message.length();
 
@@ -43,17 +86,18 @@ public class MYSCNewMemberRegistration {
 		System.out.printf("\t%s%n", message);
 		
 		if (printBottomLine) {
-			System.out.printf("\t%s%n", "_".repeat(messageLength));			
+			System.out.printf("\t%s%n%n", "_".repeat(messageLength));			
 		}
 	}
 	
-	public static boolean isDateEnteredValid(int day, int month, int year) {
-		// validate if it forms a correct date
+	public static String generateRegistrationNumber() {
+		int num = (int)(Math.random() * 10000);
 		
-		return !!(day > 0 && month > 0 && year > 0);
+		return String.format("%04d", num);
 	}
 
 	public static void main(String[] args) {
+		// Question: 1
 		// messages
 		String welcomeMessage = "Welcome to Montreal Youth Soccer Club (MYSC) Registration System";
 		String endingMessage = "Thank you for using our Registration System.";
@@ -110,9 +154,8 @@ public class MYSCNewMemberRegistration {
 		String addressLine, city, postalCode;
 		boolean isValidAddressLine = false, isValidCity = false, isValidPostalCode = false;
 		
-		// valid addressLine
 		sc.nextLine();
-
+		// valid addressLine
 		do  {
 			System.out.print("\nPlease Enter Your Address: ");
 			addressLine = sc.nextLine();
@@ -124,6 +167,7 @@ public class MYSCNewMemberRegistration {
 			}
 		} while (!isValidAddressLine);
 		
+		// sc.nextLine();
 		// valid city
 		do {
 			System.out.print("\nPlease Enter Your City: ");
@@ -139,7 +183,7 @@ public class MYSCNewMemberRegistration {
 		// valid postalCode
 		do {
 			System.out.print("\nPlease Enter Your Postal Code: ");
-			postalCode = sc.next();
+			postalCode = sc.nextLine();
 			isValidPostalCode = isPostalCodeValid(postalCode);
 			
 			if (!isValidPostalCode) {
@@ -282,11 +326,11 @@ public class MYSCNewMemberRegistration {
 		// get new club member's postal code:
 		do {
 			System.out.print("\nPlease Enter new club member's Postal Code: ");
-			newMemPostalCode = sc.next();
+			newMemPostalCode = sc.nextLine();
 			isEnteredValueValid = isPostalCodeValid(newMemPostalCode);
 			
 			if (!isEnteredValueValid) {
-				System.out.printf("Invalid Postal Code: %s%n", newMemCity);
+				System.out.printf("Invalid Postal Code: %s%n", newMemPostalCode);
 				System.out.printf("Postal Code should have six characters.%n");		
 			}
 		} while (!isEnteredValueValid);
@@ -302,25 +346,90 @@ public class MYSCNewMemberRegistration {
 				System.out.printf("Valid Phone Number contains at least 10 digits.%n");
 			}
 		} while (!isEnteredValueValid);
-		
-		// closing scanner instance
-		sc.close();
 
 		// print the new club member's registration information
 		printMessage(newMemberRegsMessage, true, true);
 		
-		final int newMemberID = 10;
+		final String newMemberID = generateRegistrationNumber();
 		
 		
 		System.out.printf("%s %s %s of the new MYSC club member%n", firstName, lastName, relationships[relationshipIndex]);
-		System.out.printf("%s %s with the new MYSC club membership # %d%n", newMemFirstName, newMemLastName, newMemberID);
+		System.out.printf("%s %s with new MYSC club membership # %s%n", newMemFirstName, newMemLastName, newMemberID);
 		System.out.printf("Lives at: %s in the city of %s with postal code %s%n", addressLine, city, postalCode);
 		System.out.printf("Has the following Telephone Number: %s%n%n", phoneNumber);
 		
 		System.out.printf("The new club member %s %s who lives at: %s in the city of %s with the postal code %s%n", newMemFirstName, newMemLastName, newMemAddressLine, newMemCity, newMemPostalCode);
-		System.out.printf("Has the following Telephone Number: %s is successfully added to the MYSC %s teams.%n", newMemPhoneNumber, (newMemGender == 'M' ? "Boys" : "Girls"));
+		System.out.printf("Has the following Telephone Number: %s is successfully added to the MYSC %s teams.%n%n", newMemPhoneNumber, (newMemGender == 'M' ? "Boys" : "Girls"));
 		
-		// print ending message
+		// Question: 2
+		
+		// Period registration message
+		String periodRegistrationMessage = "Summer of 2024 Tournaments Registration";
+		final double REGISTRATION_COST = 100.0;
+		String[] listOfPeriods = {
+				"Period 1: June   3-28",
+				"Period 2: July   1-26",
+				"Period 3: August 5-30"
+		};
+		String[] optionsSelected = {"","",""};
+		double amountToPay = 0.0;
+		int optionSelected;
+		String toContinueAnswer = "yes";
+		
+		while (toContinueAnswer.equalsIgnoreCase("yes")) {
+			printMessage(periodRegistrationMessage, true, false);
+
+			System.out.print("Do you wish to continue (yes/no) ? ");
+			toContinueAnswer = sc.next();
+			System.out.println();
+			
+			if (toContinueAnswer.equalsIgnoreCase("yes")) {
+				System.out.printf("Periods Available to register your child: %n");
+
+				for (int k = 0; k < listOfPeriods.length; k++) {
+					boolean isFound = Arrays.asList(optionsSelected).contains(listOfPeriods[k]);
+					
+					if (!isFound) {
+						System.out.printf("\t\t\t%d - " + listOfPeriods[k], k+1);
+						System.out.println();
+					}
+				}
+				
+				System.out.print("\nPlease Enter your choice: ");
+				optionSelected = sc.nextInt();
+				System.out.println();
+				
+				if (!(optionSelected > 0 && optionSelected <= listOfPeriods.length)) {
+					System.out.printf("Invalid option selected: %d", optionSelected);
+				} else {
+					amountToPay += REGISTRATION_COST;
+					
+					for (int m = 0; m < optionsSelected.length; m++) {
+						if (optionsSelected[m] == "") {
+							optionsSelected[m] = listOfPeriods[optionSelected-1];
+							m = optionsSelected.length - 1;
+						}
+					}
+				}
+			}
+		}
+		
+		// closing scanner instance
+		sc.close();
+		
+		if (optionsSelected.length > 0) {
+			System.out.printf("%s %s is successfully registered in the following 2024 Summer Tournaments: %n", firstName, lastName);
+			
+			for (int i = 0; i < optionsSelected.length; i++) {
+				if (optionsSelected[i] != "") {
+					System.out.println(optionsSelected[i]);					
+				}
+			}
+
+			System.out.printf("%nThe total Cost of the tournaments registrations is: %.2f $%n", amountToPay);
+		}
+		
 		printMessage(endingMessage, true, true);
+
 	} // end main()
 } // end class MYSCNewMemberRegistration
