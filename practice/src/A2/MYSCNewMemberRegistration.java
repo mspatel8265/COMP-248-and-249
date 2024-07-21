@@ -417,7 +417,7 @@ public class MYSCNewMemberRegistration {
 		// closing scanner instance
 		sc.close();
 		
-		if (optionsSelected.length > 0) {
+		if (optionsSelected[0] != "") {
 			System.out.printf("%s %s is successfully registered in the following 2024 Summer Tournaments: %n", firstName, lastName);
 			
 			for (int i = 0; i < optionsSelected.length; i++) {
